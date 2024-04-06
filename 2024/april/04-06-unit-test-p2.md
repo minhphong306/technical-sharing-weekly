@@ -3,7 +3,7 @@
 - Có thể hiểu Test Double giống như 1 interface, trong đó có nhiều kiểu test double (implementation): Dummy, Fake, Stubs, Spies, Mocks
 ![test double](images/04-06-unit-test-test-doubles.png)
 
-# Dummy
+## Dummy
 - Một tham số mà không cần test, nhưng vẫn cần truyền vào tham số.
 - Thường dùng cho các parameter có kiểu function callback
 
@@ -21,6 +21,35 @@ describe('updateCart', () => {
   it('should update cart total', () => {
     component.updateCart(items, dummy);
     expect(component.cart.totalItems).toEqual(4);
+  })
+})
+```
+
+## Stub
+```typescript
+// code.ts
+getDeliveryDate(orderId: number) {
+  let deliveryDate;
+
+  if (this.verified && cart.totalItems > 0) {
+    deliveryDate = this.myService.getDeliveryDate(cart);
+  }
+
+  deliveryDate = format(deliveryDate);
+
+  return this.deliveryDate;
+}
+
+// code.spec.ts
+describe('getDeliveryDate', () => {
+  const date = Date.now();
+  myService.getDeliveryDate = jest.fn().mockReturnValue(date);
+
+  it('should get the delivery date for order', () => {
+    component.verified = true;
+    component.cart = cart;
+    component.getDeliveryDate(cart);
+    expect(component.deliveryDate).toEqual(date);
   })
 })
 ```
@@ -60,3 +89,4 @@ describe('utils / redisKey', () => {
 - Behaviour & state verification
   - Mock = behaviour verification
   - Stub = state verification
+- Unit testing decision tree.
