@@ -30,7 +30,7 @@ describe('updateCart', () => {
 ```
 
 ## Stub
-
+- Giả lập giá trị trả về cho các function external.
 ```typescript
 // code.ts
 getDeliveryDate(orderId: number) {
