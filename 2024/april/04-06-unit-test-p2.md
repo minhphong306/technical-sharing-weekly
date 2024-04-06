@@ -3,6 +3,8 @@
 - Một "Test Double" là một đối tượng có thể thay mặt cho một đối tượng thực tế trong test.
 - Có thể hiểu Test Double giống như 1 interface, trong đó có nhiều kiểu test double (implementation): Dummy, Fake, Stubs, Spies, Mocks
   ![test double](images/04-06-unit-test-test-doubles.png)
+- 2 khái niệm:
+  - State ver
 
 ## Dummy
 
@@ -62,6 +64,7 @@ describe('getDeliveryDate', () => {
 - Tương tự như Stub, nhưng thay đổi chức năng bên trong.
 - Ví dụ hàm dưới dùng localStorage để xử lý dữ liệu.
 - Tạo ra 1 bộ mock với đầy đủ tính năng cho storage.
+- Thường dùng giả lập cả 1 database.
 
 ```typescript
 // code.ts
@@ -100,32 +103,36 @@ describe('PlaceOrder', () => {
 });
 ```
 
-# VD với test thông thường
+## Mock
+- Tương tự như Stub. Nhưng không cần check giá trị trả về, check xem các hàm con bên trong nó có được gọi không, và được gọi đúng thứ tự, đúng param hay không
 
 ```typescript
-// redis-key.ts
-export const getRedisSyncWalletStatusKey = (wallet: string) => {
-  return "syncing_wallet_v2:" + wallet;
-};
+// code.ts
+getDeliveryDate(orderId: number) {
+  let deliveryDate;
 
-export const getRedisWalletAddressByUserId = (userId: string) => {
-  return `wallet_address_${userId}`;
-};
+  if (this.verified && cart.totalItems > 0) {
+    deliveryDate = this.myService.getDeliveryDate(cart);
+  }
 
-// redis-key.spec.ts
-describe("utils / redisKey", () => {
-  it("should be pass", () => {
-    expect(getRedisSyncWalletStatusKey("wallet")).toBe(
-      "syncing_wallet_v2:wallet"
-    );
-    expect(getRedisWalletAddressByUserId("user_id")).toBe(
-      "wallet_address_user_id"
-    );
-  });
+  deliveryDate = format(deliveryDate);
+
+  return this.deliveryDate;
+}
+
+// code.spec.ts
+describe('PlaceOrder', () => {
+  const spy = jest.spyOn(myService, 'placeOrder');
+
+  it('should call placeOrder', () => {
+    component.cart = cart;
+    component.verified = true;
+
+    component.placeOrder();
+    expect(spy).toHaveBeenCalled();
+  })
 });
 ```
-
-# Spy
 
 # Reference
 
