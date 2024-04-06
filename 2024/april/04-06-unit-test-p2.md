@@ -134,12 +134,19 @@ describe('PlaceOrder', () => {
 });
 ```
 
+## Mock vs Spy
+![mock and spy](images/mock-vs-spy.webp)
+- Mock — Mock object replace mocked class entirely, returning recorded or default values. You can create mock out of “thin air”. This is what is mostly used during unit testing.
+
+- Spy — When spying, you take an existing object and “replace” only some methods. This is useful when you have a huge class and only want to mock certain methods (partial mocking)
+
 # Reference
 
 - https://viblo.asia/p/xu-ly-phu-thuoc-va-test-double-trong-viec-viet-unit-test-phan-1-naQZRY30Kvx
 - https://stackoverflow.com/a/8758060/7228412
 - https://martinfowler.com/articles/mocksArentStubs.html#TheDifferenceBetweenMocksAndStubs
 - https://jesusvalerareales.com/testing-with-test-doubles/#:~:text=Dummy%3A%20It%20is%20used%20as,how%20it%20will%20be%20used.
+- https://www.youtube.com/watch?v=vyjUIcr6iYY
 
 # Notes and thought
 
